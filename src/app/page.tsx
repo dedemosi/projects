@@ -1,9 +1,9 @@
-```typescript
 "use client"
 
 import * as React from "react"
 import { Suspense } from "react"
 import { FilterSidebar } from "@/components/search/filter-sidebar"
+import { ResultsTable } from "@/components/search/results-table"
 import { ResultsTable } from "@/components/search/results-table"
 import { SearchHeader } from "@/components/search/search-header"
 import { mockCompanies } from "@/components/search/data"
@@ -102,7 +102,7 @@ export default function SearchPage() {
       // Location (City/State string match)
       if (
         filters.location &&
-        !`${ company.companyCity }, ${ company.companyState } `
+        !`${company.companyCity}, ${company.companyState} `
           .toLowerCase()
           .includes(filters.location.toLowerCase())
       ) {
