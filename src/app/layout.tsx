@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { SideNav } from "@/components/layout/side-nav";
+import { GlobalHeader } from "@/components/layout/global-header";
+import { ThemeProvider } from "@/components/theme-provider";
+import { cn } from "@/lib/utils";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,10 +28,24 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+      <body className={cn("min-h-screen bg-background font-sans antialiased", geistSans.variable)}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          themes={["light", "dark", "navy"]}
+        >
+          <div className="flex h-screen w-full overflow-hidden">
+            <SideNav />
+            <div className="flex flex-col flex-1 overflow-hidden">
+              <GlobalHeader />
+              <main className="flex-1 overflow-hidden">
+                {children}
+              </main>
+            </div>
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );
