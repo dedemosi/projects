@@ -1,6 +1,8 @@
+```typescript
 "use client"
 
 import * as React from "react"
+import { Suspense } from "react"
 import { FilterSidebar } from "@/components/search/filter-sidebar"
 import { ResultsTable } from "@/components/search/results-table"
 import { SearchHeader } from "@/components/search/search-header"
@@ -100,7 +102,7 @@ export default function SearchPage() {
       // Location (City/State string match)
       if (
         filters.location &&
-        !`${company.companyCity}, ${company.companyState}`
+        !`${ company.companyCity }, ${ company.companyState } `
           .toLowerCase()
           .includes(filters.location.toLowerCase())
       ) {
@@ -179,7 +181,9 @@ export default function SearchPage() {
 
   return (
     <div className="flex flex-col h-full w-full overflow-hidden bg-background">
-      <SearchHeader />
+      <Suspense fallback={<div className="h-14 border-b" />}>
+        <SearchHeader />
+      </Suspense>
       <div className="flex flex-1 overflow-hidden">
         <FilterSidebar
           filters={filters}

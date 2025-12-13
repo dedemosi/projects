@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Suspense } from "react";
 import { SideNav } from "@/components/layout/side-nav";
 import { GlobalHeader } from "@/components/layout/global-header";
 import { ThemeProvider } from "@/components/theme-provider";
@@ -37,7 +38,9 @@ export default function RootLayout({
           themes={["light", "dark", "navy"]}
         >
           <div className="flex h-screen w-full overflow-hidden">
-            <SideNav />
+            <Suspense fallback={<div className="w-12 border-r" />}>
+              <SideNav />
+            </Suspense>
             <div className="flex flex-col flex-1 overflow-hidden">
               <GlobalHeader />
               <main className="flex-1 overflow-hidden">
