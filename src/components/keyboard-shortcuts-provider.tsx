@@ -131,8 +131,9 @@ export function KeyboardShortcutsProvider({ children }: { children: React.ReactN
             key: "j",
             description: "Select next row in table",
             action: () => {
-                // This would require table state management
-                console.log("Navigate to next row")
+                if ((window as any).navigateTableNext) {
+                    (window as any).navigateTableNext()
+                }
             },
             category: "Table",
         },
@@ -140,8 +141,9 @@ export function KeyboardShortcutsProvider({ children }: { children: React.ReactN
             key: "k",
             description: "Select previous row in table",
             action: () => {
-                // This would require table state management
-                console.log("Navigate to previous row")
+                if ((window as any).navigateTablePrevious) {
+                    (window as any).navigateTablePrevious()
+                }
             },
             category: "Table",
         },

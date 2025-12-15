@@ -144,6 +144,9 @@ export function ResultsTable({ companies }: ResultsTableProps) {
     // Initial visible columns (all except a few maybe? No, let's default to all)
     const [visibleColumns, setVisibleColumns] = React.useState<Set<string>>(new Set(allColumns.map(c => c.id)))
 
+    // Track selected row for keyboard navigation
+    const [selectedRowIndex, setSelectedRowIndex] = React.useState<number>(-1)
+
     const toggleColumn = (id: string) => {
         const newVisible = new Set(visibleColumns)
         if (newVisible.has(id)) {
@@ -153,6 +156,38 @@ export function ResultsTable({ companies }: ResultsTableProps) {
         }
         setVisibleColumns(newVisible)
     }
+
+    const toggleAll = () => {
+        if (visibleColumns.size === allColumns.length) {
+            // Hide all
+            setVisibleColumns(new Set())
+        } else {
+            // Show all
+            setVisibleColumns(new Set(allColumns.map(c => c.id)))
+        }
+    }
+
+    // Expose navigation functions globally for keyboard shortcuts
+    React.useEffect(() => {
+        (window as any).navigateTableNext = () => {
+            setSelectedRowIndex(prev => {
+                const next = prev + 1
+                return next < companies.length ? next : prev
+            })
+        };
+        (window as any).navigateTablePrevious = () => {
+            setSelectedRowIndex(prev => {
+                const next = prev - 1
+                return next >= 0 ? next : 0
+            })
+        };
+        (window as any).getSelectedCompany = () => {
+            if (selectedRowIndex >= 0 && selectedRowIndex < companies.length) {
+                return companies[selectedRowIndex]
+            }
+            return null
+        }
+    }, [companies, selectedRowIndex])
 
     return (
         <div className="flex-1 h-full flex flex-col overflow-hidden bg-background">
@@ -246,12 +281,25 @@ export function ResultsTable({ companies }: ResultsTableProps) {
                                     </TableCell>
                                 </TableRow>
                             ) : (
-                                companies.map((company) => (
-                                    <TableRow key={company.id} className="group hover:bg-muted/50 border-b border-border/40 h-10">
-                                        <TableCell className="pl-4 py-1 sticky left-0 bg-background group-hover:bg-muted/50 z-10">
+                                companies.map((company, index) => (
+                                    <TableRow
+                                        key={company.id}
+                                        className={cn(
+                                            "group border-b border-border/40 h-10",
+                                            selectedRowIndex === index ? "bg-primary/10 hover:bg-primary/15 border-primary/30" : "hover:bg-muted/50"
+                                        )}
+                                        onClick={() => setSelectedRowIndex(index)}
+                                    >
+                                        <TableCell className={cn(
+                                            "pl-4 py-1 sticky left-0 z-10",
+                                            selectedRowIndex === index ? "bg-primary/10 group-hover:bg-primary/15" : "bg-background group-hover:bg-muted/50"
+                                        )}>
                                             <Checkbox />
                                         </TableCell>
-                                        <TableCell className="py-1 border-r border-border/40 sticky left-[40px] bg-background group-hover:bg-muted/50 z-10">
+                                        <TableCell className={cn(
+                                            "py-1 border-r border-border/40 sticky left-[40px] z-10",
+                                            selectedRowIndex === index ? "bg-primary/10 group-hover:bg-primary/15" : "bg-background group-hover:bg-muted/50"
+                                        )}>
                                             <div className="flex items-center gap-2">
                                                 <Avatar className="h-5 w-5 rounded-sm border">
                                                     <AvatarImage src={`https://api.dicebear.com/7.x/initials/svg?seed=${company.companyName}`} alt={company.companyName} />
