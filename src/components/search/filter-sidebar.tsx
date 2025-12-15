@@ -53,55 +53,55 @@ export function FilterSidebar({ filters, onApplyFilters, onClearFilters }: Filte
     return (
         <div className={cn(
             "flex h-full flex-col border-r bg-background/50 backdrop-blur-sm overflow-hidden transition-all duration-300 ease-in-out",
-            isExpanded ? "w-[600px]" : "w-[320px]"
+            isExpanded ? "w-[600px]" : "w-[280px]"
         )}>
-            <div className="p-4 space-y-4 shrink-0">
+            <div className="p-3 space-y-2 shrink-0">
                 <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                        <h2 className="text-base font-bold text-foreground">Filters</h2>
-                        <div className="flex items-center justify-center rounded-md bg-muted px-2 py-0.5 text-xs font-medium">
-                            {activeCount} <ChevronDown className="ml-1 h-3 w-3" />
+                    <div className="flex items-center gap-1.5">
+                        <h2 className="text-sm font-semibold text-foreground">Filters</h2>
+                        <div className="flex items-center justify-center rounded-md bg-muted px-1.5 py-0.5 text-[10px] font-medium">
+                            {activeCount} <ChevronDown className="ml-0.5 h-2.5 w-2.5" />
                         </div>
-                        <span className="text-muted-foreground/30">|</span>
-                        <Button variant="ghost" size="sm" className="h-auto p-0 text-xs text-muted-foreground hover:text-primary" onClick={onClearFilters}>
+                        <span className="text-muted-foreground/30 text-xs">|</span>
+                        <Button variant="ghost" size="sm" className="h-auto p-0 text-[11px] text-muted-foreground hover:text-primary" onClick={onClearFilters}>
                             Clear All
                         </Button>
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-0.5">
                         <Button
                             variant="ghost"
                             size="icon"
-                            className="h-8 w-8 rounded-full hover:bg-muted"
+                            className="h-6 w-6 rounded-full hover:bg-muted"
                             onClick={() => setIsExpanded(!isExpanded)}
                         >
-                            {isExpanded ? <List className="h-4 w-4" /> : <LayoutGrid className="h-4 w-4" />}
+                            {isExpanded ? <List className="h-3 w-3" /> : <LayoutGrid className="h-3 w-3" />}
                         </Button>
-                        <Button variant="ghost" size="icon" className="h-6 w-6 rounded-full border">
-                            <ChevronLeft className="h-3 w-3" />
+                        <Button variant="ghost" size="icon" className="h-5 w-5 rounded-full border">
+                            <ChevronLeft className="h-2.5 w-2.5" />
                         </Button>
                     </div>
                 </div>
                 <div className="relative">
-                    <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Search className="absolute left-2.5 top-2 h-3.5 w-3.5 text-muted-foreground" />
                     <Input
-                        placeholder="Search filters or values"
-                        className="pl-9 h-9 bg-background border-muted-foreground/20"
+                        placeholder="Search filters"
+                        className="pl-8 h-7 text-xs bg-background border-muted-foreground/20"
                         value={filterTerm}
                         onChange={(e) => setFilterTerm(e.target.value)}
                     />
                 </div>
             </div>
 
-            <ScrollArea className="flex-1 min-h-0 px-4 pb-4">
+            <ScrollArea className="flex-1 min-h-0 px-3 pb-3">
                 <div className={cn(
-                    "gap-6",
-                    isExpanded ? "grid grid-cols-2" : "space-y-6"
+                    "gap-4",
+                    isExpanded ? "grid grid-cols-2" : "space-y-3"
                 )}>
 
                     {/* Company Info Section */}
                     {hasVisibleItems(["Company Name", "Industry", "Size", "City", "State", "County"]) && (
-                        <div className={cn("space-y-2", isExpanded && "row-span-2")}>
-                            <h3 className="text-sm font-bold text-foreground px-1">Company Info</h3>
+                        <div className={cn("space-y-1.5", isExpanded && "row-span-2")}>
+                            <h3 className="text-xs font-semibold text-foreground px-1">Company Info</h3>
 
                             {shouldShow("Company Name") && (
                                 <FilterItem
@@ -112,10 +112,10 @@ export function FilterSidebar({ filters, onApplyFilters, onClearFilters }: Filte
                                         onRemove: () => handleLocalChange("searchQuery", "")
                                     }] : []}
                                 >
-                                    <div className="grid gap-2">
+                                    <div className="grid gap-1.5">
                                         <Input
                                             placeholder="Enter company name"
-                                            className="h-8"
+                                            className="h-7 text-xs"
                                             value={localFilters.searchQuery}
                                             onChange={(e) => handleLocalChange("searchQuery", e.target.value)}
                                         />
@@ -132,9 +132,9 @@ export function FilterSidebar({ filters, onApplyFilters, onClearFilters }: Filte
                                         onRemove: () => handleLocalChange("industry", localFilters.industry.filter(i => i !== ind))
                                     }))}
                                 >
-                                    <div className="grid gap-2">
+                                    <div className="grid gap-1.5">
                                         {["Manufacturing", "Software", "Healthcare", "Retail", "Defense", "Technology", "Internet", "Pharmaceuticals"].map((ind) => (
-                                            <div key={ind} className="flex items-center space-x-2">
+                                            <div key={ind} className="flex items-center space-x-1.5">
                                                 <Checkbox
                                                     id={ind}
                                                     checked={localFilters.industry.includes(ind)}
@@ -145,8 +145,9 @@ export function FilterSidebar({ filters, onApplyFilters, onClearFilters }: Filte
                                                             : current.filter((i) => i !== ind)
                                                         handleLocalChange("industry", updated)
                                                     }}
+                                                    className="h-3.5 w-3.5"
                                                 />
-                                                <label htmlFor={ind} className="text-sm">{ind}</label>
+                                                <label htmlFor={ind} className="text-xs cursor-pointer">{ind}</label>
                                             </div>
                                         ))}
                                     </div>
@@ -479,49 +480,53 @@ interface FilterItemProps {
     children: React.ReactNode
 }
 
-function FilterItem({ label, isActive, activeTags, children }: FilterItemProps) {
-    const [isOpen, setIsOpen] = React.useState(false)
+function FilterItem({
+    label,
+    children,
+    isActive,
+    activeTags = [],
+}: FilterItemProps) {
+    const [isOpen, setIsOpen] = React.useState(isActive || false)
 
     return (
-        <Collapsible
-            open={isOpen}
-            onOpenChange={setIsOpen}
-            className={cn(
-                "rounded-md border bg-card transition-all hover:border-primary/50",
-                isOpen ? "ring-1 ring-primary/20 border-primary/50" : "border-border/50"
-            )}
-        >
-            <div className="flex flex-col">
-                <div className="flex items-center justify-between p-3 cursor-pointer" onClick={() => setIsOpen(!isOpen)}>
-                    <span className="text-sm font-medium text-foreground/80">{label}</span>
-
-                    {!isActive && !isOpen && (
-                        <Plus className="h-4 w-4 text-muted-foreground/50" />
-                    )}
-
-                    {isOpen && (
-                        <ChevronUp className="h-4 w-4 text-muted-foreground/50" />
-                    )}
-                </div>
-
-                {isActive && !isOpen && (
-                    <div className="px-3 pb-3 -mt-1 flex flex-wrap gap-2">
-                        {activeTags.map((tag, index) => (
-                            <div key={index} className="flex items-center gap-1 rounded-md bg-blue-50 px-2 py-1 text-xs font-medium text-blue-700 border border-blue-100">
-                                <span className="max-w-[150px] truncate">{tag.label}</span>
-                                <button onClick={(e) => { e.stopPropagation(); tag.onRemove(); }} className="ml-1 hover:text-blue-900">
-                                    <X className="h-3 w-3" />
+        <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+            <CollapsibleTrigger asChild>
+                <Button
+                    variant="ghost"
+                    size="sm"
+                    className="flex w-full justify-between p-2 hover:bg-muted/50 rounded-md h-auto"
+                >
+                    <span className="text-xs font-medium flex items-center gap-1.5">
+                        {label}
+                        {activeTags.length > 0 && (
+                            <span className="text-[10px] text-muted-foreground bg-primary/10 px-1 py-0.5 rounded-sm">
+                                {activeTags.length}
+                            </span>
+                        )}
+                    </span>
+                    {isOpen ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                </Button>
+            </CollapsibleTrigger>
+            <CollapsibleContent className="mt-1.5 px-2 pb-2">
+                {activeTags.length > 0 && (
+                    <div className="flex flex-wrap gap-1 mb-2">
+                        {activeTags.map((tag, idx) => (
+                            <div key={idx} className="flex items-center gap-1 bg-primary/10 rounded-full px-2 py-0.5">
+                                <span className="text-[10px]">{tag.label}</span>
+                                <button
+                                    onClick={(e) => {
+                                        e.stopPropagation()
+                                        tag.onRemove()
+                                    }}
+                                    className="hover:text-destructive"
+                                >
+                                    <X className="h-2.5 w-2.5" />
                                 </button>
                             </div>
                         ))}
                     </div>
                 )}
-            </div>
-
-            <CollapsibleContent>
-                <div className="px-3 pb-3">
-                    {children}
-                </div>
+                {children}
             </CollapsibleContent>
         </Collapsible>
     )
