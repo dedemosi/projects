@@ -77,6 +77,74 @@ export function KeyboardShortcutsProvider({ children }: { children: React.ReactN
             action: () => setIsHelpOpen(true),
             category: "Actions",
         },
+        // Filters
+        {
+            key: "f",
+            description: "Focus on filter search",
+            action: () => {
+                const searchInput = document.querySelector('input[placeholder*="Search"]') as HTMLInputElement
+                if (searchInput) {
+                    searchInput.focus()
+                }
+            },
+            category: "Filters",
+        },
+        {
+            key: "Enter",
+            metaKey: true,
+            description: "Apply filters",
+            action: () => {
+                const applyButton = document.querySelector('button:has-text("Apply Filters")') as HTMLButtonElement
+                if (!applyButton) {
+                    // Try finding by text content
+                    const buttons = Array.from(document.querySelectorAll('button'))
+                    const applyBtn = buttons.find(btn => btn.textContent?.includes('Apply Filters'))
+                    if (applyBtn) {
+                        applyBtn.click()
+                    }
+                } else {
+                    applyButton.click()
+                }
+            },
+            category: "Filters",
+        },
+        {
+            key: "k",
+            metaKey: true,
+            description: "Clear all filters",
+            action: () => {
+                const clearButton = document.querySelector('button:has-text("Clear")') as HTMLButtonElement
+                if (!clearButton) {
+                    const buttons = Array.from(document.querySelectorAll('button'))
+                    const clearBtn = buttons.find(btn => btn.textContent?.includes('Clear'))
+                    if (clearBtn) {
+                        clearBtn.click()
+                    }
+                } else {
+                    clearButton.click()
+                }
+            },
+            category: "Filters",
+        },
+        // Table Navigation
+        {
+            key: "j",
+            description: "Select next row in table",
+            action: () => {
+                // This would require table state management
+                console.log("Navigate to next row")
+            },
+            category: "Table",
+        },
+        {
+            key: "k",
+            description: "Select previous row in table",
+            action: () => {
+                // This would require table state management
+                console.log("Navigate to previous row")
+            },
+            category: "Table",
+        },
     ]
 
     useKeyboardShortcuts(shortcuts, true)

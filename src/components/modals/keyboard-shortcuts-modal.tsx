@@ -29,6 +29,15 @@ const shortcuts: KeyboardShortcut[] = [
     { keys: ["B"], description: "Open Beta Features", category: "Actions" },
     { keys: ["P"], description: "Open Product Switcher", category: "Actions" },
     { keys: ["?"], description: "Show Keyboard Shortcuts", category: "Actions" },
+
+    // Filters
+    { keys: ["F"], description: "Focus on filter search", category: "Filters" },
+    { keys: ["⌘", "Enter"], description: "Apply filters", category: "Filters" },
+    { keys: ["⌘", "K"], description: "Clear all filters", category: "Filters" },
+
+    // Table
+    { keys: ["J"], description: "Select next row", category: "Table" },
+    { keys: ["K"], description: "Select previous row", category: "Table" },
 ]
 
 const categories = Array.from(new Set(shortcuts.map(s => s.category)))
