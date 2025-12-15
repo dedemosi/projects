@@ -37,9 +37,21 @@ const products = {
 
 import { BetaFeaturesModal } from "@/components/modals/beta-features-modal"
 
+export interface GlobalHeaderRef {
+    openBeta: () => void
+    openProducts: () => void
+}
+
 export function GlobalHeader() {
     const { setTheme } = useTheme()
     const [isBetaModalOpen, setIsBetaModalOpen] = React.useState(false)
+    const [isProductsOpen, setIsProductsOpen] = React.useState(false)
+
+    // Expose functions globally for keyboard shortcuts
+    React.useEffect(() => {
+        (window as any).openBetaModal = () => setIsBetaModalOpen(true);
+        (window as any).openProductsDropdown = () => setIsProductsOpen(true)
+    }, [])
 
     return (
         <header className="flex items-center justify-between px-6 py-2 border-b bg-background shrink-0 h-12">
